@@ -8,7 +8,6 @@ class ResponsableV{
     private $numLicencia;
     private $nombre;
     private $apellido;
-}
 
 public function __construct ($nroEmpl, $nroLic,$nombre,$apellido){
     $this->numEmpleado=$nroEmpl;
@@ -52,5 +51,6 @@ public function __toString(){
     "Numero de Licencia: ".$this->getNroLicencia()."\n".
     "Nombre: ".$this->getNombre()."\n".
     "Apellido: ".$this->getApellido()."\n";
+}
 }
 ?>
