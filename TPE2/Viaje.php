@@ -10,7 +10,7 @@ Volver a implementar las operaciones que permiten modificar el nombre, apellido 
 */
 
 class Viaje{
-  private $codivoViaje;
+  private $codigoViaje;
   private $destino;
   private $cantidadMaximaPasajeros;
   private $pasajeros;
@@ -112,7 +112,7 @@ public function setObjResponsableV($objResp){
     public function __toString(){
       //$cadenaPasajeros= $this->mostrarDatosPasajeros();
       $objResp=$this-> getObjResponsableV();
-      $cadena =   "Código del viaje: ".$this->getCodigo(). "\n".
+      $cadena =   "Código del viaje: ".$this->getCodigoViaje(). "\n".
                   "Destino: ".$this->getDestino()."\n".
                   "Cantidad máxima de pasajeros: " .$this->getCantidadMaximaPasajeros()."\n".
                   "Responsable del viaje:" .$objResp->getNombre(). " " . $objResp->getApellido()."\n".
