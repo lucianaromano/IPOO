@@ -9,6 +9,58 @@ Volver a implementar las operaciones que permiten modificar el nombre, apellido 
   mas de una vez en el viaje. De la misma forma cargue la información del responsable del viaje.
 */
 
+class Viaje{
+  private $codivoViaje;
+  private $destino;
+  private $cantidadMaximaPasajeros;
+  private $pasajeros;
+  private $objResponsableV;
 
+
+public function __construct ($codigoViaje,$destino,$maxPasajeros,$colObjPasajeros, $responsableV){
+  $this ->codigoViaje =$codigoViaje;
+  $this ->destino=$destino;
+  $this ->cantidadMaximaPasajeros=$maxPasajeros;
+  $this ->pasajeros=$colObjPasajeros;
+  $this ->objResponsableV=$responsableV;
+}
+
+public function getCodigoViaje(){
+  return $this->codigoViaje;
+}
+
+public function setCodigoViaje($valor){
+  $this->codigoViaje=$valor;
+}
+public function getDestino(){
+  return $this->destino;
+}
+
+public function setDestino($lugar){
+  $this->destino=$lugar;
+}
+
+public function getCantidadMaximaPasajeros(){
+  return $this->cantidadMaximaPasajeros;
+}
+
+public function setCantidadMaximaPasajeros($valor){
+  $this->cantidadMaximaPasajeros = $valor;
+}
+ 
+public function getArregloPasajeros(){
+  return $this->pasajeros;
+}
+
+public function setArregloPasajeros($arregloPasajeros){
+  $this-> pasajeros=$arregloPasajeros;
+}
+public function getObjResponsableV(){
+  return $this->objResponsableV;
+}
+public function setObjResponsableV($objResp){
+  $this-> objResponsableV=$objResp;
+}
+}
 
 ?>
