@@ -106,7 +106,7 @@ public function setObjResponsableV($objResp){
         }
         return $pasajero;
     }
-/**
+    /**
      * Permite imprimir en pantalla los valores del viaje.
      */
     public function __toString(){
