@@ -58,7 +58,9 @@ class Banco {
         $this->coleccionCliente=$array;
     }
 
+    public function incorporarCliente($objCliente){ //permite agregar un nuevo cliente al banco
 
+    }
     
 }
 ?>

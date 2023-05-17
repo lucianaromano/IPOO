@@ -50,7 +50,6 @@ class Cuenta{
         $newSaldo = $saldo + $monto;
         $this->setSaldo($newSaldo);
     }
-    C:\Users\Nahuel\Desktop\misphp\IPOO2022\IPOO\phpPOO\Herencia\Test_Banco.php
     public function realizarRetiro ($monto){
         //permite realizar un retiro de la cuenta por una cantidad “monto” de dinero
         $saldo = $this->saldoCuenta();
