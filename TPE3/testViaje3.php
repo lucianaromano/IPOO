@@ -1,19 +1,11 @@
 <?php
-/**
- * Modificar la clase Viaje para que ahora los pasajeros sean un objeto que tenga los atributos nombre, apellido, numero de documento y 
- * teléfono. El viaje ahora contiene una referencia a una colección de objetos de la clase Pasajero. También se desea guardar la información 
- * de la persona responsable de realizar el viaje, para ello cree una clase ResponsableV que registre el número de empleado, 
- * número de licencia, nombre y apellido. La clase Viaje debe hacer referencia al responsable de realizar el viaje.
- * Volver a implementar las operaciones que permiten modificar el nombre, apellido y teléfono de un pasajero. Luego implementar 
- * la operación que agrega los pasajeros al viaje, solicitando por consola la información de los mismos. Se debe verificar que el
- *  pasajero no este cargado mas de una vez en el viaje. De la misma forma cargue la información del responsable del viaje.
- */
-
 
  //incluyo todos las clases 
 include "Viaje.php";
-include "Pasajeros.php";
+include "Pasajeros3.php";
 include "ResponsableV.php";
+include "PasajerosVip.php";
+include "PasajerosNecesidades.php";
 
 //objetos pasajeros
 $pasajeros1 = new Pasajeros("Olivia","Ruiz",59118307,2994097006);
@@ -43,10 +35,11 @@ function menuOpciones(){
     echo "(2) Modificar informacion de un viaje \n";
     echo "(3) Datos de un pasajero \n";
     echo "(4) Modificar datos responsable de viaje \n";
-    echo "(5) Salir \n";
+    echo "(5) Vender pasaje";
+    echo "(6) Salir \n";
     $opcion=trim(fgets(STDIN));
 
-    if (!($opcion == 1 || $opcion == 2 || $opcion == 3 || $opcion == 4)){
+    if (!($opcion == 1 || $opcion == 2 || $opcion == 3 || $opcion == 4 || $opcion == 5) ){
         echo "Error. Ingrese una opción válida: \n";
     }
     return $opcion;
@@ -71,7 +64,10 @@ do {
             echo "Ingrese nueva cantidad máxima de pasajeros del viaje: "; //modifico cantidad max de pasajeros
             $nuevaCantMax=trim(fgets(STDIN));
             $viaje1->setCantidadMaximaPasajeros($nuevaCantMax);
-            echo $viaje1."\n";
+            echo "Ingrese nuevo costo del viaje: ";
+            $nuevoCosto=trim(fgets(STDIN));
+            $viaje1->setCosto($nuevoCosto);
+            echo "\n Datos modificados del viaje: \n" .$viaje1."\n";
 
         case 3: //datos del pasajero
             $cadena = $viaje1->mostrarDatosPasajeros(); //muestro datos precargados de pasajeros
@@ -103,7 +99,48 @@ do {
             $newEmpleado= $viaje1->ModificarDatosResponsable($newNroEmpleado,$newNroLicEmpleado,$newNomEmpleado,$newApellEmpleado);
             echo "Los nuevos datos del responbale son: \n";
             echo $viaje1->getObjResponsableV();
-        case 5: //salir 
+        case 5:
+            //creo el nuevo pasajero
+            echo "Ingrese el nombre del pasajero: \n";
+            $nombre=trim(fgets(STDIN));
+            echo "Ingrese el apellido del pasajero: \n";
+            $apellido=trim(fgets(STDIN));
+            echo "Ingrese el documento del pasajero: \n";
+            $doc=trim(fgets(STDIN));
+            echo "Ingrese el telefono del pasajero: \n";
+            $telefono=trim(fgets(STDIN));
+            echo "Ingrese el numero de asiento: \n";
+            $numAsiento=trim(fgets(STDIN));
+            echo "Ingrese el numero de ticket: \n";
+            $numTicket=trim(fgets(STDIN));
+            $pasajero= new Pasajeros ($nombre,$apellido,$doc,$telefono,$numAsiento,$numTicket);
+
+            //pido tipo de pasajero
+            echo "Que tipo de pasajero es?(VIP/Especial): \n";
+            $tipo=trim(fgets(STDIN));
+
+            if($tipo=="VIP"){
+                echo "Numero de viajero frecuente: ";
+                $nroViajero=trim(fgets(STDIN));
+                $PasajeroVip->setNroViajeroFrecuente($nroViajero);
+                echo "Cantidad de millas: ";
+                $millas=trim(fgets(STDIN));
+                $PasajeroVip->setCantMillas($millas);
+                $costo=($Pasajeros3->setVenderPasaje($pasajero)) * ($PasajeroVip->setDarPorcentajeIncremento());
+            }elseif($tipo == "Especial"){
+                echo "Necesita silla de ruedas? (SI/NO): ";
+                $rtaSilla=trim(fgets(STDIN));
+                $PasajeroNecesidad->setSillaDeRuedas($rtaSilla);
+                echo "Necesita asistencia para el embarque o desembarque?(SI/NO): ";
+                $asistencia=trim(fgets(STDIN));
+                $PasajeroNecesidad->setAsistencia($asistencia);
+                echo "Necesita comida especial?(SI/NO): ";
+                $comida=trim(fgets(STDIN));
+                $PasajeroNecesidad->setComidaEspecial($comida);
+                $costo=($Pasajeros3->setVenderPasaje($pasajero)) * ($PasajeroNecesidad->setDarPorcentajeIncremento());
+                echo "Se realizo la venta. El costo es: " .$costo. "\n";
+            }
+        case 6: //salir 
             echo "Saliendo del programa... \n";
             sleep(3); //a los 3seg sale del programa.
 
