@@ -46,6 +46,18 @@ class PasajerosNecesidades extends Pasajeros {
     public function setComidaEspecial($comidaEspecial){
         $this->comidaEspecial=$comidaEspecial;
     }
+    
+    /**
+     * Retorna el porcentaje que debe aplicarse como incremento segun las caracteristicas del pasajero.
+     */
+    public function darPorcentajeIncremento(){
+        if ($this->getSillaDeRuedas()== "Si" && $this->getAsistencia()=="Si" && $this->getComidaEspecial()=="Si"){
+            $porcentaje=(30/100);
+        } elseif ($this->getSillaDeRuedas()== "Si" || $this->getAsistencia()=="Si" || $this->getComidaEspecial()=="Si"){
+            $porcentaje= (15/100);
+        }
+        return $porcentaje;
+    }
 
     //metodo toString de la clase PasajerosNecesidades
     public function __toString(){

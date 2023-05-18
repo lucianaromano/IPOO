@@ -89,6 +89,13 @@
         $this->numTicket=$numero;
     }
 
+    /**
+     * Retorna el porcentaje que debe aplicarse como incremento segun las caracteristicas del pasajero.
+     */
+    public function darPorcentajeIncremento(){
+        $porcentaje = (10/100);
+        return $porcentaje;
+    }
 
     //metodo toString 
     public function __toString()

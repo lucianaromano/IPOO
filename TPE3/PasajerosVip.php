@@ -8,8 +8,8 @@ class PasajerosVip extends Pasajeros {
     private $cantMillas;
 
     //metodo constructor de pasajero Vip
-    public function __construct($nombre,$apellido,$numeroDni,$tele, $numAsiento, $numTicket, $nroViajeroFrecuente, $cantMillas){
-        parent:: __construct($nombre,$apellido,$numeroDni,$tele, $numAsiento, $numTicket);
+    public function __construct($nombre,$apellido,$numeroDni,$tele, $numAsiento, $numTicket,$costo, $nroViajeroFrecuente, $cantMillas){
+        parent:: __construct($nombre,$apellido,$numeroDni,$tele, $numAsiento, $numTicket,$costo);
         $this->nroViajeroFrecuente=$nroViajeroFrecuente;
         $this->cantMillas=$cantMillas;
     }
@@ -26,6 +26,18 @@ class PasajerosVip extends Pasajeros {
     }
     public function setCantMillas($cantMillas){
         $this->cantMillas=$cantMillas;
+    }
+
+     /**
+     * Retorna el porcentaje que debe aplicarse como incremento segun las caracteristicas del pasajero.
+     */
+    public function darPorcentajeIncremento(){
+        if ($this->getCantMillas()>300){
+            $porcentaje=((30)/100);
+        } else{
+            $porcentaje= ((35)/100);
+        }
+        return $porcentaje;
     }
 
     //metodo toString de la clase

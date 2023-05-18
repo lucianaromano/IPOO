@@ -130,7 +130,6 @@ public function setCosto($costo){
       return $costo;
     }
  
-
     /**
      * Implemente la función hayPasajesDisponible() que retorna verdadero si la cantidad de pasajeros del viaje es menor a la 
      * cantidad máxima de pasajeros y falso caso contrario
@@ -155,6 +154,7 @@ public function setCosto($costo){
       $cadena =   "Código del viaje: ".$this->getCodigoViaje(). "\n".
                   "Destino: ".$this->getDestino()."\n".
                   "Cantidad máxima de pasajeros: " .$this->getCantidadMaximaPasajeros()."\n".
+                  "Costo del viaje: " .$this->getCosto()."\n".
                   "Responsable del viaje:" .$objResp->getNombre(). " " . $objResp->getApellido()."\n".
                   "N° Empleado: ".$objResp->getNroEmpleado()."-"."N° Licencia: ".$objResp->getNroLicencia()."\n".
                   "Datos pasajeros: \n" . $this->mostrarDatosPasajeros();
