@@ -8,10 +8,10 @@ include "PasajerosVip.php";
 include "PasajerosNecesidades.php";
 
 //objetos pasajeros
-$pasajeros1 = new Pasajeros("Olivia","Ruiz",59118307,2994097006);
-$pasajeros2 = new Pasajeros("Lorena","Romano",40183241,2994639156);
-$pasajeros3 = new Pasajeros("Blanca","Beatriz",14275429,2996329400);
-$pasajeros4 = new Pasajeros("Nahuel","Ruiz",40443386,2994056653);
+$pasajeros1 = new Pasajeros("Olivia","Ruiz",59118307,2994097006, 12, 650);
+$pasajeros2 = new Pasajeros("Lorena","Romano",40183241,2994639156, 23, 001);
+$pasajeros3 = new Pasajeros("Blanca","Beatriz",14275429,2996329400, 27, 123);
+$pasajeros4 = new Pasajeros("Nahuel","Ruiz",40443386,2994056653, 8, 120);
 
 //creo un objeto responsable del viaje
 $respon = new ResponsableV(123,156,"pepe","aguello");
@@ -22,7 +22,9 @@ $respon = new ResponsableV(123,156,"pepe","aguello");
 $pasajeros=[$pasajeros1,$pasajeros2,$pasajeros3,$pasajeros4];
 
 $viaje1 = new Viaje(721,"Neuquen",80,$pasajeros,$respon);
-echo $viaje1."\n\n";
+//Inicializo las clases hijas
+$pasajeroVip = new PasajerosVip("Nahuel","Ruiz",40443386,2994056653,8, 120, 005,3200);
+$pasajerosNecesidades= new PasajerosNecesidades("Blanca","Beatriz",14275429,2996329400, 27, 123, "NO", "NO", "SI");
 
 
 /**
