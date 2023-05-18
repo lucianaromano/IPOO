@@ -21,7 +21,7 @@ class Persona {
         return $this->apellido;
     }
     public function setDNI($numero){
-        $this->dni=$numero;
+        $this->DNI=$numero;
     }
     public function setNombre($nombre){
         $this->nombre=$nombre;

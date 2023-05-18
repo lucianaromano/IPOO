@@ -16,6 +16,46 @@ a la cantidad máxima de pasajeros y falso caso contrario
 include 'Pasajeros.php';
 
 class PasajerosNecesidades extends Pasajeros {
+    private $sillaDeRuedas;
+    private $asistencia;
+    private $comidaEspecial;
+
+    public function __construct($nombre,$apellido,$numeroDni,$tele, $numAsiento, $numTicket, $sillaDeRuedas, $asistencia, $comidaEspecial){
+        parent:: __construct($nombre,$apellido,$numeroDni,$tele, $numAsiento, $numTicket);
+        $this->sillaDeRuedas=$sillaDeRuedas;
+        $this->asistencia=$asistencia;
+        $this->comidaEspecial=$comidaEspecial;
+    }
+
+    //metodos de acceso
+    public function getSillaDeRuedas(){
+        return $this->sillaDeRuedas;
+    }
+    public function setSillaDeRuedas($sillaDeRuedas){
+        $this->sillaDeRuedas=$sillaDeRuedas;
+    }
+    public function getAsistencia(){
+        return $this->asistencia;
+    }
+    public function setAsistencia($asistencia){
+        $this->asistencia=$asistencia;
+    }
+    public function getComidaEspecial(){
+        return $this->comidaEspecial;
+    }
+    public function setComidaEspecial($comidaEspecial){
+        $this->comidaEspecial=$comidaEspecial;
+    }
+
+    //metodo toString de la clase PasajerosNecesidades
+    public function __toString(){
+        $cadena = parent:: __toString();
+        $cadena.="\n Silla de ruedas: ".$this->getSillaDeRuedas().
+        $cadena.="\n Asistencia de embarque/desembarque: ".$this->getAsistencia().
+        $cadena.="\n Comida especial: ".$this->getComidaEspecial();
+        return $cadena;
+    }
+    
 
 }
 ?>

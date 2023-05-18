@@ -1,7 +1,6 @@
 <?php
 
 //La clase "PasajeroVIP" tiene como atributos adicionales el número de viajero frecuente y cantidad de millas de pasajero. 
-include 'Pasajeros.php';
 
 class PasajerosVip extends Pasajeros {
     //clase que hereda la clase pasajeros
@@ -9,8 +8,8 @@ class PasajerosVip extends Pasajeros {
     private $cantMillas;
 
     //metodo constructor de pasajero Vip
-    public function __construct($nombre, $numAsiento, $numTicket, $nroViajeroFrecuente, $cantMillas){
-        parent :: __construct($nombre, $numAsiento, $numTicket);
+    public function __construct($nombre,$apellido,$numeroDni,$tele, $numAsiento, $numTicket, $nroViajeroFrecuente, $cantMillas){
+        parent:: __construct($nombre,$apellido,$numeroDni,$tele, $numAsiento, $numTicket);
         $this->nroViajeroFrecuente=$nroViajeroFrecuente;
         $this->cantMillas=$cantMillas;
     }
@@ -31,7 +30,7 @@ class PasajerosVip extends Pasajeros {
 
     //metodo toString de la clase
     public function __toString(){
-        $cadena = parent :: __toString();
+        $cadena = parent:: __toString();
         $cadena.="\n Numero viajero frecuente: ".$this->getNroViajeroFrecuente().
         $cadena.="\n Cantidad de millas del pasajero: ".$this->getCantMillas();
         return $cadena;
