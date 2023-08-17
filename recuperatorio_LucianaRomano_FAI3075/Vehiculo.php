@@ -77,23 +77,17 @@ class Vehiculo{
 
     //otros metodos
     public function __toString(){
-        $retorno = "Codigo del vehiculo: " . $this->getCodigo() .
+        $retorno = "\nCodigo del vehiculo: " . $this->getCodigo() .
                     "\nCosto: " . $this->getCosto() . 
                     "\nAño de fabricación: " . $this->getAnioFabricacion() . 
                     "\nDescripcion: " . $this->getDescripcion();
                     if (!$this->getActivo()){
-                        $retorno.=" No disponible para su venta.";
+                        $retorno.=" \n No disponible para su venta.";
                     }
+        return $retorno;
                     
     }
-    /* 5. Implementar el método darPrecioVenta el cual calcula el valor por el cual puede ser vendido un
-    vehículo. Si el vehículo no se encuentra disponible para la venta retorna un valor < 0. 
-    Si el vehículo está
-    disponible para la venta, el método realiza el siguiente cálculo:
-    $_venta = $_compra + $_compra * (anio * por_inc_anual)
-    donde $_compra: es el costo del vehículo.
-    anio: cantidad de años transcurridos desde que se fabricó el vehículo.
-    por_inc_anual: porcentaje incremento anual del vehículo*/
+
     public function darPrecioVenta(){
         $venta= -1;
         $activo= $this->getActivo();

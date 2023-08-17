@@ -98,5 +98,35 @@ class Venta
             echo "No es posible la venta.";
         }   
     }
+
+    /**1. Implementar el método retornarTotalVentaNacional() que retorna la sumatoria del precio venta de cada una de los
+    vehiculos Nacionales vinculadas a la venta */
+    public function retornarTotalVentaNacional()
+    {
+        $coleccionObjVehiculo = $this->coleccionObjVehiculo;
+        $ventaNacionales = 0;
+        for ($i = 0; $i < count($coleccionObjVehiculo); $i++) {
+            if (method_exists($coleccionObjVehiculo[$i], 'getPaisOrigen')) {
+                array_push($colVehImportados, $coleccionObjVehiculo[$i]);
+            }
+        }
+        return $ventaNacionales;
+    }
+    
+    /**
+    *Implementar el método retornarVehículoImportado() que retorna una colección de vehículos importadas vinculadas
+    *a la venta. Si la venta solo se corresponde con vehículos Nacionales la colección retornada debe ser vacía.
+    *@return array $colVehImportados
+    */
+    public function retornarVehiculoImportado(){
+    $colVehImportados=[];
+    $vehiculos= $this->getColeccionObjVehiculo();
+    for ($i=0; $i<count($vehiculos); $i++){
+        if ($vehiculos[$i]->getPaisOrigen() != 'Argentina'){
+            array_push($colVehImportados,$vehiculos[$i]);
+        }
+    }
+    return $colVehImportados;
+    }
 }
 ?>

@@ -77,13 +77,14 @@ class Vehiculo{
 
     //otros metodos
     public function __toString(){
-        $retorno = "Codigo del vehiculo: " . $this->getCodigo() .
+        $retorno = "\nCodigo del vehiculo: " . $this->getCodigo() .
                     "\nCosto: " . $this->getCosto() . 
                     "\nAño de fabricación: " . $this->getAnioFabricacion() . 
                     "\nDescripcion: " . $this->getDescripcion();
                     if (!$this->getActivo()){
-                        $retorno.=" No disponible para su venta.";
+                        $retorno.=" \n No disponible para su venta.";
                     }
+        return $retorno;
                     
     }
     /* 5. Implementar el método darPrecioVenta el cual calcula el valor por el cual puede ser vendido un

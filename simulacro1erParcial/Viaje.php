@@ -141,7 +141,7 @@ class Viaje
         if ($cantDisp-$cantAsientos>0){
             $exito =true;
             $cantDisponibles =$cantDisp-$cantAsientos;
-            $this->setCantasientosdisponibles($cantDisponibles);
+            $this->setCantAsientosDisponibles($cantDisponibles);
         }           
         return $exito;
 

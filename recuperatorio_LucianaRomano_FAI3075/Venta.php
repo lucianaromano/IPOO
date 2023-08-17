@@ -9,23 +9,25 @@ atributo de la clase.
 y lo incorpora a la colección de vehículos de la venta, siempre y cuando sea posible la venta. El método
 cada vez que incorpora un vehículo a la venta, debe actualizar la variable instancia precio final de la
 venta. Utilizar el método que calcula el precio de venta de un vehículo donde crea necesario.*/
-class Venta
-{
+class Venta{
     //atributos de la clase
     private $numero;
     private $fecha;
     private $objCliente;
     private $coleccionObjVehiculo;
     private $precioFinal;
+    //nuevo atributo
+    private $formaPago;
     
     //metodo constructor
-    public function __construct($numero, $fecha, $refCliente, $coleccionObjVehiculo, $precioFinal)
+    public function __construct($numero, $fecha, $refCliente, $coleccionObjVehiculo, $precioFinal,$formaPago)
     {
         $this->numero = $numero;
         $this->fecha = $fecha;
         $this->objCliente = $refCliente;
         $this->coleccionObjVehiculo = $coleccionObjVehiculo;
         $this->precioFinal = $precioFinal;   
+        $this->formaPago=$formaPago;
     }
     //metodos de acceso
 
@@ -49,6 +51,9 @@ class Venta
         return $this->precioFinal;
     }
 
+    public function getFormaPago(){
+        return $this->formaPago;
+    }
     public function setNumero($numero){
         $this->numero = $numero;
     }
@@ -68,7 +73,9 @@ class Venta
     public function setPrecioFinal($precioFinal){
         $this->precioFinal = $precioFinal;
     }
-
+    public function setFormaPago($formaPago){
+        $this->formaPago = $formaPago;
+    }
     //otros metodos
 
     public function __toString(){
@@ -76,8 +83,8 @@ class Venta
                     "\nFecha: " . $this->getFecha() . 
                     "\nReferencia cliente: " . $this->getRefCliente() . 
                     "\nReferencia vehiculo: " . $this->getColeccionObjVehiculo() .
-                    "\nPrecio final: " . $this->getPrecioFinal();
-        
+                    "\nPrecio final: " . $this->getPrecioFinal().
+                    "\nForma de pago: ".$this->getFormaPago();
         for ($i=0;$i<count($this -> getColeccionObjVehiculo());$i++){
             $infoVenta = $infoVenta . "Informacion vehiculo: " . $i . $this-> getColeccionObjVehiculo()[$i] -> __toString();
         }
@@ -98,5 +105,57 @@ class Venta
             echo "No es posible la venta.";
         }   
     }
-}
+
+    /**1. Implementar el método retornarTotalVentaNacional() que retorna la sumatoria del precio venta de cada una de los
+    vehiculos Nacionales vinculadas a la venta */
+    public function retornarTotalVentaNacional(){
+        $coleccionObjVehiculo= $this->coleccionObjVehiculo;
+        $ventaNacionales=0;
+        for ($i=0; $i< count($coleccionObjVehiculo); $i++){
+            if ($coleccionObjVehiculo[$i]->getPaisOrigen()== 'Argentina'){
+                $ventaNacionales += $coleccionObjVehiculo[$i]->darPrecioVenta();
+            }
+        }
+        return $ventaNacionales;
+    }
+    
+    /**
+    *Implementar el método retornarVehículoImportado() que retorna una colección de vehículos importadas vinculadas
+    *a la venta. Si la venta solo se corresponde con vehículos Nacionales la colección retornada debe ser vacía.
+    *@return array $colVehImportados
+    */
+    public function retornarVehiculoImportado(){
+    $colVehImportados=[];
+    $vehiculos= $this->getColeccionObjVehiculo();
+    for ($i=0; count($vehiculos); $i++){
+        if ($vehiculos[$i]->getPaisOrigen() != 'Argentina'){
+            array_push($colVehImportados,$vehiculos[$i]);
+        }
+    }
+    return $colVehImportados;
+    }
+
+    /**Implementar la función registrarInformacionVenta($info) que recibe por parámetro un arreglo asociativo $info donde 
+     * la claves coinciden con el nombre de los atributos necesarios en cada clase ($info[“formapago”] o $info[“direccion”]
+     *  o $info[“diaemtrega”] son ejemplos de claves necesarios en el array $info). Redefinir el método según crea necesario,
+     *  en cada clase de la jerarquía */
+    public function registrarInformacionVenta($info){
+        $formaPago= $info["formaPago"];
+        $direccionEnvio= $info["direccion"];
+        $dniReceptor=$info["dniReceptor"];
+        $telefono=$info["telefono"];
+        $transporte=$info["transporte"];
+        $diaEntrega=$info["diaEntrega"];
+        $horarioEntrega=$info["horarioEntrega"];
+        $coleccionObjVehiculo=$this->getColeccionObjVehiculo();
+        if ($direccionEnvio !=null ){ //Si tiene direccion,entonces la venta es online
+            $venta = new VentaOnline($this->getNumero(),$this->getFecha(), $this->getRefCliente(), $coleccionObjVehiculo, $this->getPrecioFinal(),"Efectivo",$direccionEnvio,$dniReceptor,$telefono,$transporte);
+        } else { //si no, es venta presencial
+            $venta = new VentaLocal($this->getNumero(),$this->getFecha(), $this->getRefCliente(), $coleccionObjVehiculo, $this->getPrecioFinal(),"Efectivo",$diaEntrega,$horarioEntrega);
+        }
+        return $venta;
+    }
+
+
+    }
 ?>

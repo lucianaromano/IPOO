@@ -60,10 +60,18 @@ class Cliente
     }
 
     //otros metodos
+    public function baja(){
+        $baja=$this->getBaja();
+        $retorno = "Si";
+        if (!$baja){
+            $retorno= "No";
+        }
+        return $retorno;
+    }
     public function __toString(){
         return "\n Nombre: " . $this->getNombre() .
         "\nApellido: " . $this->getApellido() . 
-        "\nBaja: " . $this->getBaja() . 
+        "\nBaja: " . $this->baja() . 
         "\nTipo de Documento: " . $this->getTipoDoc() .
         "\nNro Documento: " . $this->getNroDoc();
     }
