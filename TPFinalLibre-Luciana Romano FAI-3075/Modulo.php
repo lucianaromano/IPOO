@@ -21,6 +21,16 @@ class Modulo {
 		$this-> horaCierre="";
 		$this-> fecha ="";
     }
+
+    public function cargar($idModulo,$descripcion,$tope,$costo,$horaInicio,$horaCierre,$fecha){		
+		$this->setIdModulo($idModulo);
+		$this->setDescripcion($descripcion);
+		$this->setTope($tope);
+		$this->setCosto($costo);
+		$this->setHoraInicio($horaInicio);
+		$this->setHoraCierre($horaCierre);
+		$this->setFecha($fecha);
+    }
 	
     public function getIdModulo(){
         return $this->idModulo;
@@ -77,18 +87,6 @@ class Modulo {
 	public function setMensajeOperacion($mensajeoperacion){
 		$this->mensajeoperacion=$mensajeoperacion;
 	}
-
-    //FUNCIONES DE LA CLASE MODULO
-
-	public function cargar($idModulo,$descripcion,$tope,$costo,$horaInicio,$horaCierre,$fecha){		
-		$this->setIdModulo($idModulo);
-		$this->setDescripcion($descripcion);
-		$this->setTope($tope);
-		$this->setCosto($costo);
-		$this->setHoraInicio($horaInicio);
-		$this->setHoraCierre($horaCierre);
-		$this->setFecha($fecha);
-    }
 
     /**
 	 * Recupera los datos de un modulo por su id

@@ -1,5 +1,5 @@
 <?php
-
+include_once 'BaseDatos.php';
 class enLinea extends Modulo{
     private $linkReunion;
     private $bonificacion;   //por defecto 20%
@@ -11,7 +11,7 @@ class enLinea extends Modulo{
         $this-> bonificacion="";
     }
 
-    public function cargar($idModulo,$descripcion,$tope,$costo,$horaInicio,$horaCierre,$fecha, $linkReunion, $bonificacion){
+    public function cargar($idModulo,$descripcion,$tope,$costo,$horaInicio,$horaCierre,$fecha,$linkReunion,$bonificacion){
         parent::cargar($idModulo,$descripcion,$tope,$costo,$horaInicio,$horaCierre,$fecha);
         $this->setLinkReunion($linkReunion);
         $this->setBonificacion($bonificacion);
@@ -37,45 +37,18 @@ class enLinea extends Modulo{
         $this->mensajeOperacion = $mensajeOperacion;
     }
 
-
-    public function __toString(){
-        return parent::__toString() .
-        "\nLink reunión: " . $this->getLinkReunion() .
-        "\nBonificación: " . $this->getBonificacion();
-    }
-
-    /**
-     * @param
-     * @return float $costo
-     */
-    public function darCostoModulo(){
-        $costo = parent::darCostoModulo();
-        $costo += $costo * 0.20;
-        return $costo;
-    }
-    /**********************************************************************************************************************************************************************/
-
-    /**
-	 * Recupera los datos de un modulo por su id
-	 * @param int $id
-	 * @return boolean
-	 */		
     public function Buscar($id){
 		$base = new BaseDatos();
-		$consultaBusqueda = "SELECT * from modulo where idModulo=".$id;
+		$consultaBusqueda = "SELECT * from enLinea where id=".$id;
 		$resp = false;
 
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaBusqueda)){
-				if($row2=$base->Registro()){		
-				    $this->setIdModulo($id);
-					$this->setDescripcion($row2['descripcion']);
-					$this->setTope($row2['tope']);
-					$this->setCosto($row2['costo']);
-					$this->setHoraInicio($row2['horaInicio']);
-					$this->setHoraCierre($row2['horaCierre']);
-					$this->setFecha($row2['fecha']);
-					$resp= true;
+				if($row2=$base->Registro()){
+                    parent::Buscar($id);
+				    $this->setLinkReunion($row2['linkReunion']);
+                    $this->setBonificacion($row2['bonificacion']);
+					$resp= true;	
 				}				
 		 	}	else {
 		 			$this->setMensajeOperacion($base->getError());
@@ -86,61 +59,54 @@ class enLinea extends Modulo{
 		 return $resp;
 	}	
     
-	/** Coloca la clase en una tabla de la base de datos
-     * @param ()
-     * @return boolean 
-    */
 	public function insertar(){
 		$base=new BaseDatos();
 		$resp= false;
-		$consultaInsertar="INSERT INTO modulo(idModulo,descripcion,tope,costo,horaInicio,horaCierre,fecha)
-				VALUES ('".$this->getIdModulo()."','".$this->getDescripcion()."','".$this->getTope()."','".$this->getCosto()."','".$this->getHoraInicio()."','".$this->getHoraCierre()."','".$this->getFecha()."')";
-		
-		if($base->Iniciar()){
-			if($base->Ejecutar($consultaInsertar)){
-			    $resp=  true;
-			}	else {
+
+        if(parent::insertar()){
+            $consultaInsertar="INSERT INTO enLinea(id,linkReunion, bonificacion)
+             VALUES (".$this->getIdModulo().",'".$this->getLinkReunion().",'".$this->getBonificacion()."')";
+		    if($base->Iniciar()){
+			    if($base->Ejecutar($consultaInsertar)){
+			    $resp= true;
+			    } else {
 					$this->setMensajeOperacion($base->getError());			
 			}
-		} else {
+		    } else {
 				$this->setMensajeOperacion($base->getError());	
-		}
+		    }
+        }
 		return $resp;
-	}
+    }
 
-	/** Actualiza los datos de la tabla modulo en la base de datos que coincida con su  id
-     * @param ()
-     * @return boolean 
-    */
     public function modificar(){
 	    $resp = false; 
 	    $base = new BaseDatos();
-		$consultaModifica="UPDATE modulo SET descripcion='".$this->getDescripcion()."',tope='".$this->getTope()."',costo= '" .$this->getCosto(). 
-		"',horaInicio= '".$this->getHoraInicio()."',horaCierre= '".$this->getHoraCierre(). "',fecha= '".$this->getFecha(). "'WHERE Id=". $this->getIdModulo();
 
-		if($base->Iniciar()){
-			if($base->Ejecutar($consultaModifica)){
+        if(parent::modificar()){
+            $consultaModifica="UPDATE enLinea SET linkReunion='".$this->getLinkReunion()."',bonificacion='".$this->getBonificacion()."'WHERE idModulo =". $this->getIdModulo();    
+	    	if($base->Iniciar()){
+		    	if($base->Ejecutar($consultaModifica)){
 			    $resp=  true;
-			}else{
+			    }else{
 				$this->setMensajeOperacion($base->getError());
-			}
-		}else{
+		    	}
+		    }else{
 				$this->setMensajeOperacion($base->getError());
-		}
+	    	}
+        }
 		return $resp;
 	}	
 	
-	/** Elimina una instancia de la tabla modulos 
-     * @param ()
-     * @return boolean
-     */
 	public function eliminar(){
 		$base=new BaseDatos();
 		$resp=false;
 		if($base->Iniciar()){
-				$consultaBorra="DELETE FROM modulo WHERE idModulo=".$this->getIdModulo();
+				$consultaBorra="DELETE FROM enLinea WHERE idModulo=".$this->getIdModulo();
 				if($base->Ejecutar($consultaBorra)){
+                    if (parent::eliminar()){
 				    $resp=  true;
+                    }
 				}else{
 						$this->setMensajeOperacion($base->getError());		
 				}
@@ -150,29 +116,21 @@ class enLinea extends Modulo{
 		return $resp; 
 	}
 
-	/**
-     * Lista todos los modulos que cumplen con una condicion dada
-     * @param String $condicion
-     * @return Array $arregloModulo
-     */
-    public function listar($condicion)
-    {
-        $arregloModulo = [];
+    public function listar($condicion){
+        $arreglo = null;
         $base = new BaseDatos();
-        $consulta = "SELECT * FROM modulo ";
+        $consulta = "SELECT * FROM enLinea ";
         if ($condicion != "") {
             $consulta = $consulta . ' WHERE ' . $condicion;
         }
-        $consulta .= " ORDER BY id ";
+        $consulta .= " ORDER BY linkReunion ";
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consulta)) {
-                $arregloModulo = array();
-                while ($row2 = $base->Registro()) {
-
-					$idModulo= $row2['idModulo'];
-                    $obj = new Modulo();
-                    $obj->Buscar($idModulo);
-                    array_push($arregloModulo, $obj);
+                $arreglo=array();
+                while ($row2=$base->Registro()) {
+                    $obj=new enLinea();
+                    $obj->Buscar($row2['idModulo']);
+                    array_push($arreglo, $obj);
                 }
             } else {
                 $this->setmensajeoperacion($base->getError());
@@ -180,9 +138,21 @@ class enLinea extends Modulo{
         } else {
             $this->setmensajeoperacion($base->getError());
         }
-        return $arregloModulo;
+        return $arreglo;
     }
-}
 
+    public function __toString(){
+        return parent::__toString() .
+        "\n Link reunion: " . $this->getLinkReunion() .
+        "\n Bonificación: " . $this->getBonificacion();
+    }
+
+    public function darCostoModulo(){
+        $costo = parent::darCostoModulo();
+        $costo += $costo * 0.20;
+        return $costo;
+    }
+
+}
 ?>
 
