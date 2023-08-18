@@ -2,7 +2,7 @@
 include 'BaseDatos.php';
 include 'Actividad.php';
 include 'Modulo.php';
-//include 'enLinea.php';
+include 'enLinea.php';
 include 'Inscripcion.php';
 include 'Ingresante.php';
 
@@ -199,13 +199,13 @@ function main (){
         }
         elseif($opcionElegida==7){
             echo "Ingrese ID de la inscripcion: ";
-            $idInscripcion = trim (fgets(STDIN));
+            $id_inscripcion = trim (fgets(STDIN));
             echo "Ingrese la fecha de inscripcion (D/M/A): ";
             $fecha = trim(fgets(STDIN));
             echo "Ingrese el costo final de la inscripcion: ";
-            $costoFinal = trim(fgets(STDIN));
+            $costo_final = trim(fgets(STDIN));
             $inscripcion = new Inscripcion();
-            $inscripcion-> cargar (null,$idInscripcion, $fecha, $costoFinal);
+            $inscripcion-> cargar($id_inscripcion, $fecha, $costo_final);
             $exito = $inscripcion->insertar();
 
             if ($exito) {

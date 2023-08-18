@@ -2,8 +2,8 @@ CREATE DATABASE bdigresante;
 
 CREATE TABLE actividad(
     id_actividad bigint AUTO_INCREMENT,
-    d_corta varchar(150),
-    d_larga varchar(150),
+    desc_corta varchar(150),
+    desc_larga varchar(150),
     PRIMARY KEY (id_actividad)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
@@ -11,14 +11,13 @@ CREATE TABLE modulo (
     id_modulo bigint AUTO_INCREMENT,
     id_actividad bigint(11),
     descripcion varchar (100),
-    tope_inscrip int,
+    tope int,
     costo float,
     hora_inicio varchar (5),
     hora_cierre varchar (5),
-    fecha_inicio date,
-    fecha_fin date,
+    fecha date,
     PRIMARY KEY (id_modulo),
-    FOREIGN KEY (id_actividad) REFERENCES actividades (id_actividad)
+    FOREIGN KEY (id_actividad) REFERENCES actividad (id_actividad)
     ON UPDATE CASCADE
     ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
@@ -28,7 +27,7 @@ CREATE TABLE enLinea (
     link_reunion varchar (150),
     bonificacion int,
     PRIMARY KEY (id_modulo),
-    FOREIGN KEY (id_modulo) REFERENCES modulos (id_modulo)
+    FOREIGN KEY (id_modulo) REFERENCES modulo (id_modulo)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE ingresante (

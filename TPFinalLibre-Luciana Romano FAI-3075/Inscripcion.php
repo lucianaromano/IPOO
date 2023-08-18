@@ -2,24 +2,28 @@
 include_once 'BaseDatos.php';
 
 class Inscripcion {
-    private $idInscripcion;
+    private $id_inscripcion;
     private $fecha;
-    private $costoFinal;
+    private $costo_final;
 	private $mensajeoperacion;
+	private $obj_modulo;
+	private $obj_ingresante;
 
 
     public function __construct(){
-        $this-> idInscripcion = "";
+        $this-> id_inscripcion = "";
         $this-> fecha = "";
-        $this-> costoFinal = "";
+        $this-> costo_final = "";
+		$this-> obj_modulo = null;
+		$this-> obj_ingresante= null;
     }
 	
     public function getIdInscripcion(){
-        return $this->idInscripcion;
+        return $this->id_inscripcion;
     }
     
-    public function setIdInscripcion($idInscripcion){
-        $this->idInscripcion = $idInscripcion;
+    public function setIdInscripcion($id_inscripcion){
+        $this->id_inscripcion = $id_inscripcion;
     }
     public function getFecha(){
         return $this->fecha;
@@ -29,12 +33,24 @@ class Inscripcion {
     }
     
     public function getCostoFinal(){
-        return $this->costoFinal;
+        return $this->costo_final;
     }
-    public function setCostoFinal($costoFinal){
-        $this->costoFinal = $costoFinal;
+    public function setCostoFinal($costo_final){
+        $this->costo_final = $costo_final;
+    }
+    public function getObjModulo(){
+        return $this->obj_modulo;
+    }
+    public function setObjModulo($id_modulo){
+        $this->obj_modulo = $id_modulo;
     }
     
+    public function getObjIngresante(){
+        return $this->obj_ingresante;
+    }
+    public function setObjIngresante($id_ingresante){
+        $this->obj_ingresante = $id_ingresante;
+    }
     public function getMensajeOperacion(){
 		return $this->mensajeoperacion;
 	}
@@ -43,10 +59,12 @@ class Inscripcion {
 	}
 
     //FUNCIONES DE LA CLASE INSCRIPCION
-	public function cargar($idInscripcion,$fecha,$costoFinal){		
-		$this->setIdInscripcion($idInscripcion);
+	public function cargar($id_inscripcion,$fecha,$costo_final,$id_modulo,$id_ingresante){		
+		$this->setIdInscripcion($id_inscripcion);
 		$this->setFecha($fecha);
-		$this->setCostoFinal($costoFinal);
+		$this->setCostoFinal($costo_final);
+		$this->setObjModulo($id_modulo);
+		$this->setObjIngresante($id_ingresante);
     }
 
     /**
@@ -56,7 +74,7 @@ class Inscripcion {
 	 */		
     public function Buscar($id){
 		$base = new BaseDatos();
-		$consultaBusqueda = "SELECT * from inscripcion where idInscripcion=".$id;
+		$consultaBusqueda = "SELECT * from inscripcion where id_inscripcion=".$id;
 		$resp = false;
 
 		if($base->Iniciar()){
@@ -64,8 +82,9 @@ class Inscripcion {
 				if($row2=$base->Registro()){		
 				    $this->setIdInscripcion($id);
 					$this->setFecha($row2['fecha']);
-					$this->setCostoFinal($row2['costoFinal']);
-
+					$this->setCostoFinal($row2['costo_final']);
+					$this->setObjModulo($row2['obj_modulo']);
+					$this->setObjIngresante($row2['obj_ingresante']);
 					$resp= true;
 				}				
 		 	}	else {
@@ -84,8 +103,8 @@ class Inscripcion {
 	public function insertar(){
 		$base=new BaseDatos();
 		$resp= false;
-		$consultaInsertar="INSERT INTO inscripcion(idInscripcion, fecha, costoFinal)
-				VALUES ('".$this->getIdInscripcion()."','".$this->getFecha()."','".$this->getCostoFinal()."')";
+		$consultaInsertar="INSERT INTO inscripcion(id_inscripcion, fecha, costo_final,id_modulo,id_ingresante)
+				VALUES ('".$this->getIdInscripcion()."','".$this->getFecha()."','".$this->getCostoFinal()."','".$this->getObjModulo()."','".$this->getObjIngresante()."')";
 		
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaInsertar)){
@@ -106,7 +125,7 @@ class Inscripcion {
     public function modificar(){
 	    $resp = false; 
 	    $base = new BaseDatos();
-		$consultaModifica="UPDATE inscripcion SET fecha='".$this->getFecha()."',costoFinal='".$this->getCostoFinal()."'WHERE Id=". $this->getIdInscripcion();
+		$consultaModifica="UPDATE inscripcion SET fecha='".$this->getFecha()."',costo_final='".$this->getCostoFinal()."'WHERE Id=". $this->getIdInscripcion();
 
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){
@@ -128,7 +147,7 @@ class Inscripcion {
 		$base=new BaseDatos();
 		$resp=false;
 		if($base->Iniciar()){
-				$consultaBorra="DELETE FROM inscripcion WHERE idInscripcion=".$this->getIdInscripcion();
+				$consultaBorra="DELETE FROM inscripcion WHERE id_inscripcion=".$this->getIdInscripcion();
 				if($base->Ejecutar($consultaBorra)){
 				    $resp=  true;
 				}else{
@@ -159,9 +178,9 @@ class Inscripcion {
                 $arregloInscripcion = array();
                 while ($row2 = $base->Registro()) {
 
-					$idInscripcion= $row2['idInscripcion'];
+					$id_inscripcion= $row2['id_inscripcion'];
                     $obj = new Inscripcion();
-                    $obj->Buscar($idInscripcion);
+                    $obj->Buscar($id_inscripcion);
                     array_push($arregloInscripcion, $obj);
                 }
             } else {
@@ -178,7 +197,9 @@ class Inscripcion {
 		$cadena ="\n INSCRIPCIONES \n";
 		$cadena .=      "ID: " . $this->getIdInscripcion(). "\n".
 					 	"Fecha: " . $this->getFecha()."\n".
-					 	"Costo final: " . $this->getCostoFinal()."\n";
+					 	"Costo final: " . $this->getCostoFinal()."\n".
+						"Modulo: ".$this->getObjModulo().
+						"Ingresante: ".$this->getObjIngresante();
 		return $cadena;
 	}
 }

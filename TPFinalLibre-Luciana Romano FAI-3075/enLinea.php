@@ -1,27 +1,27 @@
 <?php
 include_once 'BaseDatos.php';
 class enLinea extends Modulo{
-    private $linkReunion;
+    private $link_reunion;
     private $bonificacion;   //por defecto 20%
     private $mensajeOperacion;
 
     public function __construct(){
         parent:: __construct();
-        $this-> linkReunion = "";
+        $this-> link_reunion = "";
         $this-> bonificacion="";
     }
 
-    public function cargar($idModulo,$descripcion,$tope,$costo,$horaInicio,$horaCierre,$fecha,$linkReunion,$bonificacion){
-        parent::cargar($idModulo,$descripcion,$tope,$costo,$horaInicio,$horaCierre,$fecha);
-        $this->setLinkReunion($linkReunion);
+    public function cargar($id_modulo,$descripcion,$tope,$costo,$hora_inicio,$hora_cierre,$fecha,$id_actividad,$link_reunion,$bonificacion){
+        parent::cargar($id_modulo,$descripcion,$tope,$costo,$hora_inicio,$hora_cierre,$fecha,$id_actividad);
+        $this->setlink_reunion($link_reunion);
         $this->setBonificacion($bonificacion);
     }
 
-    public function getLinkReunion(){
-        return $this->linkReunion;
+    public function getlink_reunion(){
+        return $this->link_reunion;
     }
-    public function setLinkReunion($linkReunion){
-        $this->linkReunion = $linkReunion;
+    public function setlink_reunion($link_reunion){
+        $this->link_reunion = $link_reunion;
     }
 
     public function getBonificacion(){
@@ -46,7 +46,7 @@ class enLinea extends Modulo{
 			if($base->Ejecutar($consultaBusqueda)){
 				if($row2=$base->Registro()){
                     parent::Buscar($id);
-				    $this->setLinkReunion($row2['linkReunion']);
+				    $this->setLinkReunion($row2['link_reunion']);
                     $this->setBonificacion($row2['bonificacion']);
 					$resp= true;	
 				}				
@@ -64,7 +64,7 @@ class enLinea extends Modulo{
 		$resp= false;
 
         if(parent::insertar()){
-            $consultaInsertar="INSERT INTO enLinea(id,linkReunion, bonificacion)
+            $consultaInsertar="INSERT INTO enLinea(id,link_reunion, bonificacion)
              VALUES (".$this->getIdModulo().",'".$this->getLinkReunion().",'".$this->getBonificacion()."')";
 		    if($base->Iniciar()){
 			    if($base->Ejecutar($consultaInsertar)){
@@ -84,7 +84,7 @@ class enLinea extends Modulo{
 	    $base = new BaseDatos();
 
         if(parent::modificar()){
-            $consultaModifica="UPDATE enLinea SET linkReunion='".$this->getLinkReunion()."',bonificacion='".$this->getBonificacion()."'WHERE idModulo =". $this->getIdModulo();    
+            $consultaModifica="UPDATE enLinea SET link_reunion='".$this->getLinkReunion()."',bonificacion='".$this->getBonificacion()."'WHERE id_modulo =". $this->getid_modulo();    
 	    	if($base->Iniciar()){
 		    	if($base->Ejecutar($consultaModifica)){
 			    $resp=  true;
@@ -102,7 +102,7 @@ class enLinea extends Modulo{
 		$base=new BaseDatos();
 		$resp=false;
 		if($base->Iniciar()){
-				$consultaBorra="DELETE FROM enLinea WHERE idModulo=".$this->getIdModulo();
+				$consultaBorra="DELETE FROM enLinea WHERE id_modulo=".$this->getIdModulo();
 				if($base->Ejecutar($consultaBorra)){
                     if (parent::eliminar()){
 				    $resp=  true;
@@ -123,13 +123,13 @@ class enLinea extends Modulo{
         if ($condicion != "") {
             $consulta = $consulta . ' WHERE ' . $condicion;
         }
-        $consulta .= " ORDER BY linkReunion ";
+        $consulta .= " ORDER BY link_reunion ";
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consulta)) {
                 $arreglo=array();
                 while ($row2=$base->Registro()) {
                     $obj=new enLinea();
-                    $obj->Buscar($row2['idModulo']);
+                    $obj->Buscar($row2['id_modulo']);
                     array_push($arreglo, $obj);
                 }
             } else {

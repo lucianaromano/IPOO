@@ -2,42 +2,48 @@
 include_once 'BaseDatos.php';
 
 class Modulo {
-    private $idModulo;
+    private $id_modulo;
     private $descripcion;
     private $tope;
     private $costo;
-    private $horaInicio;
-    private $horaCierre;
+    private $hora_inicio;
+    private $hora_cierre;
 	private $fecha;
+    private $obj_actividad;
+    private $col_inscripciones;
 	private $mensajeoperacion;
 
 
     public function __construct(){
-        $this-> idModulo = "";
+        $this-> id_modulo = 0 ;
         $this-> descripcion = "";
         $this-> tope = "";
         $this-> costo = "";
-        $this-> horaInicio ="";
-		$this-> horaCierre="";
+        $this-> hora_inicio ="";
+		$this-> hora_cierre="";
 		$this-> fecha ="";
+        $this->obj_actividad= null ;
+        $this->col_inscripciones=[];
     }
 
-    public function cargar($idModulo,$descripcion,$tope,$costo,$horaInicio,$horaCierre,$fecha){		
-		$this->setIdModulo($idModulo);
+    public function cargar($id_modulo,$descripcion,$tope,$costo,$hora_inicio,$hora_cierre,$fecha,$id_actividad){		
+		$this->setIdModulo($id_modulo);
 		$this->setDescripcion($descripcion);
 		$this->setTope($tope);
 		$this->setCosto($costo);
-		$this->setHoraInicio($horaInicio);
-		$this->setHoraCierre($horaCierre);
+		$this->setHoraInicio($hora_inicio);
+		$this->setHoraCierre($hora_cierre);
 		$this->setFecha($fecha);
+        $this->setObjActividad($id_actividad);
+
     }
 	
     public function getIdModulo(){
-        return $this->idModulo;
+        return $this->id_modulo;
     }
     
-    public function setIdModulo($idModulo){
-        $this->idModulo = $idModulo;
+    public function setIdModulo($id_modulo){
+        $this->id_modulo = $id_modulo;
     }
     
     public function getDescripcion(){
@@ -62,24 +68,37 @@ class Modulo {
     }
     
     public function getHoraInicio(){
-        return $this->horaInicio;
+        return $this->hora_inicio;
     }
-    public function setHoraInicio($horaInicio){
-        $this-> horaInicio = $horaInicio;
+    public function setHoraInicio($hora_inicio){
+        $this-> hora_inicio = $hora_inicio;
     }
     public function getHoraCierre(){
-        return $this->horaCierre;
+        return $this->hora_cierre;
     }
-	public function setHoraCierre($horaCierre){
-        $this->horaCierre = $horaCierre;
-    }
-    
-	public function setFecha($fecha){
-        $this->fecha = $fecha;
+	public function setHoraCierre($hora_cierre){
+        $this->hora_cierre = $hora_cierre;
     }
     
     public function getFecha(){
         return $this->fecha;
+    }
+	public function setFecha($fecha){
+        $this->fecha = $fecha;
+    }
+    public function getObjActividad(){
+        return $this->obj_actividad;
+    }
+    
+	public function setObjActividad($id_actividad){
+        $this->obj_actividad = $id_actividad;
+    }
+    public function getColInscripciones(){
+        return $this->col_inscripciones;
+    }
+    
+	public function setColInscripciones($col_inscripciones){
+        $this->col_inscripciones = $col_inscripciones;
     }
     public function getMensajeOperacion(){
 		return $this->mensajeoperacion;
@@ -95,7 +114,7 @@ class Modulo {
 	 */		
     public function Buscar($id){
 		$base = new BaseDatos();
-		$consultaBusqueda = "SELECT * from modulo where idModulo=".$id;
+		$consultaBusqueda = "SELECT * from modulo where id_modulo=".$id;
 		$resp = false;
 
 		if($base->Iniciar()){
@@ -105,9 +124,10 @@ class Modulo {
 					$this->setDescripcion($row2['descripcion']);
 					$this->setTope($row2['tope']);
 					$this->setCosto($row2['costo']);
-					$this->setHoraInicio($row2['horaInicio']);
-					$this->setHoraCierre($row2['horaCierre']);
+					$this->setHoraInicio($row2['hora_inicio']);
+					$this->setHoraCierre($row2['hora_cierre']);
 					$this->setFecha($row2['fecha']);
+                    $this->setObjActividad($row2['obj_actividad']);
 					$resp= true;
 				}				
 		 	}	else {
@@ -126,8 +146,8 @@ class Modulo {
 	public function insertar(){
 		$base=new BaseDatos();
 		$resp= false;
-		$consultaInsertar="INSERT INTO modulo(idModulo,descripcion,tope,costo,horaInicio,horaCierre,fecha)
-				VALUES ('".$this->getIdModulo()."','".$this->getDescripcion()."','".$this->getTope()."','".$this->getCosto()."','".$this->getHoraInicio()."','".$this->getHoraCierre()."','".$this->getFecha()."')";
+		$consultaInsertar="INSERT INTO modulo(id_modulo,descripcion,tope,costo,hora_inicio,hora_cierre,fecha,id_actividad)
+				VALUES ('".$this->getIdModulo()."','".$this->getDescripcion()."','".$this->getTope()."','".$this->getCosto()."','".$this->getHoraInicio()."','".$this->getHoraCierre()."','".$this->getFecha()."','".$this->getObjActividad()."')";
 		
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaInsertar)){
@@ -149,7 +169,7 @@ class Modulo {
 	    $resp = false; 
 	    $base = new BaseDatos();
 		$consultaModifica="UPDATE modulo SET descripcion='".$this->getDescripcion()."',tope='".$this->getTope()."',costo= '" .$this->getCosto(). 
-		"',horaInicio= '".$this->getHoraInicio()."',horaCierre= '".$this->getHoraCierre(). "',fecha= '".$this->getFecha(). "'WHERE Id=". $this->getIdModulo();
+		"',hora_inicio= '".$this->getHoraInicio()."',hora_cierre= '".$this->getHoraCierre(). "',fecha= '".$this->getFecha(). "'WHERE id_modulo=". $this->getIdModulo();
 
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){
@@ -171,7 +191,7 @@ class Modulo {
 		$base=new BaseDatos();
 		$resp=false;
 		if($base->Iniciar()){
-				$consultaBorra="DELETE FROM modulo WHERE idModulo=".$this->getIdModulo();
+				$consultaBorra="DELETE FROM modulo WHERE id_modulo=".$this->getIdModulo();
 				if($base->Ejecutar($consultaBorra)){
 				    $resp=  true;
 				}else{
@@ -196,15 +216,15 @@ class Modulo {
         if ($condicion != "") {
             $consulta = $consulta . ' WHERE ' . $condicion;
         }
-        $consulta .= " ORDER BY id ";
+        $consulta .= " ORDER BY id_modulo ";
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consulta)) {
                 $arregloModulo = array();
                 while ($row2 = $base->Registro()) {
 
-					$idModulo= $row2['idModulo'];
+					$id_modulo= $row2['id_modulo'];
                     $obj = new Modulo();
-                    $obj->Buscar($idModulo);
+                    $obj->Buscar($id_modulo);
                     array_push($arregloModulo, $obj);
                 }
             } else {
@@ -218,23 +238,35 @@ class Modulo {
 	
 	//metodo toString de la clase modulos
 	public function __toString(){
-		$cadena ="\n MODULOS \n";
-		$cadena .=      "ID: " . $this->getIdModulo(). "\n".
+		return          "\n\t MODULOS: ".
+                        "ID: " . $this->getIdModulo(). "\n".
 					 	"Descripcion: " . $this->getDescripcion()."\n".
 					 	"Tope de inscripcion: " . $this->getTope()."\n".
 						"Costo: ". $this->getCosto()."\n".
 						"Hora inicio: ". $this->getHoraInicio()."\n".
 						"Hora cierre: ". $this->getHoraCierre().
-						"Fecha: ". $this->getFecha();
-		return $cadena;
+						"Fecha: ". $this->getFecha().
+                        "Actividad: ".$this->getObjActividad().
+                        "Inscripciones: " .$this->inscripcionesAString();
 	}
+
+    public function inscripcionesAString(){
+		$retorno = "";
+		$arreglo = $this->getColInscripciones();
+		foreach ($arreglo as $i){
+			$retorno .= $i . "\n";
+			$retorno .= "--------------------------------------\n";
+		}
+		return $retorno;
+	}
+
 	public function darCostoModulo(){
-        $arregloFunciones = [] ;
+        $colModulos = [] ;
        
         $costoTotal = 0;
         $costoEnLinea = 0;
         $costoPresencial =0;
-        foreach ($arregloFunciones as $objModulo) {
+        foreach ($colModulos as $objModulo) {
             $costoModulo = $objModulo->darCostosModulo();
             switch (get_class($objModulo)) {
                 case "En Linea":
@@ -248,8 +280,7 @@ class Modulo {
         $costoTotal = $costoEnLinea + $costoPresencial;
         return "\n Costo total: $" . $costoTotal;
     }
-    
-    function modificarModulo ($objModulo, $opcionModificar, $dato){
+    /*    function modificarModulo ($objModulo, $opcionModificar, $dato){
         if ($opcionModificar==1){
             $objModulo -> setDescripcion($dato);
         }
@@ -277,7 +308,7 @@ class Modulo {
         }else {
             echo $objModulo->getMensajeOperacion();
         } 
-    }
+    }*/
 	
 }
 
