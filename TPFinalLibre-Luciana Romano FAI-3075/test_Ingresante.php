@@ -198,22 +198,61 @@ function main (){
 				}
         }
         elseif($opcionElegida==7){
+            $rta=false;
             echo "Ingrese ID de la inscripcion: ";
             $id_inscripcion = trim (fgets(STDIN));
             echo "Ingrese la fecha de inscripcion (D/M/A): ";
             $fecha = trim(fgets(STDIN));
             echo "Ingrese el costo final de la inscripcion: ";
             $costo_final = trim(fgets(STDIN));
-            $inscripcion = new Inscripcion();
-            $inscripcion-> cargar($id_inscripcion, $fecha, $costo_final);
-            $exito = $inscripcion->insertar();
+            $objModulo= new Modulo();
+            $colModulos= $objModulo -> listar("");
+                foreach ($colModulos as $modulo){
+                        echo "-------------------------------------------------------";
+						echo $modulo;
+						echo "-------------------------------------------------------";
+                }
+                echo "\n Ingrese el ID del modulo: ";
+                $id_modulo= trim(fgets(STDIN));
+                $objModulo -> buscar ($id_modulo);
+            $objIngresante= new Ingresante();
+            $colIngresantes= $objIngresante -> listar("");
+                foreach ($colIngresantes as $ingresante){
+                    echo "-------------------------------------------------------";
+                        echo $ingresante;
+                        echo "-------------------------------------------------------";
+                }
+                echo "\n Ingrese el DNI del ingresante: ";
+                $dni= trim(fgets(STDIN));
+                $objIngresante-> buscar($dni);
 
-            if ($exito) {
-            echo "LA INSCRIPCION FUE CARGADA A LA BD. \n";
+            $objInscripcion = new Inscripcion();
+            $colInscripciones = $objInscripcion -> listar ("");
+                foreach ($colInscripciones as $inscripcion){
+                    if ($objModulo -> getIdModulo() == $id_modulo) {
+                        echo "No puede inscribirse al mismo modulo más de una vez.";
+                        $value = false;
+                    } else {
+                        $value = true;
+                    }
+                } if ($value) {
+                    $objInscripcion-> cargar($id_inscripcion, $fecha, $costo_final,$id_modulo,$dni);
+                    $rta = $objInscripcion->insertar ();
+                }
+            
+            if ($rta == true) {
+                echo "LA INSCRIPCION FUE CARGADA A LA BD. \n";
+                $colInscripciones = $objInscripcion->listar("");
+                foreach ($colInscripciones as $inscripcion){
+                    echo "-------------------------------------------------------";
+						echo $inscripcion;
+						echo "-------------------------------------------------------";
+                }
             } else {
             echo "Error al cargar la inscripcion.\n";
             }
         }
+        
         
         elseif ($opcionElegida==8){
             echo "Ingrese ID de la inscripcion que desea borrar: \n";
