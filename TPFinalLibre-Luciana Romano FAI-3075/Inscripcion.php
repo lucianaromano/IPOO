@@ -48,8 +48,8 @@ class Inscripcion {
     public function getObjIngresante(){
         return $this->obj_ingresante;
     }
-    public function setObjIngresante($id_ingresante){
-        $this->obj_ingresante = $id_ingresante;
+    public function setObjIngresante($dni){
+        $this->obj_ingresante = $dni;
     }
     public function getMensajeOperacion(){
 		return $this->mensajeoperacion;
@@ -59,12 +59,12 @@ class Inscripcion {
 	}
 
     //FUNCIONES DE LA CLASE INSCRIPCION
-	public function cargar($id_inscripcion,$fecha,$costo_final,$id_modulo,$id_ingresante){		
+	public function cargar($id_inscripcion,$fecha,$costo_final,$id_modulo,$dni){		
 		$this->setIdInscripcion($id_inscripcion);
 		$this->setFecha($fecha);
 		$this->setCostoFinal($costo_final);
 		$this->setObjModulo($id_modulo);
-		$this->setObjIngresante($id_ingresante);
+		$this->setObjIngresante($dni);
     }
 
     /**
@@ -103,7 +103,7 @@ class Inscripcion {
 	public function insertar(){
 		$base=new BaseDatos();
 		$resp= false;
-		$consultaInsertar="INSERT INTO inscripcion(id_inscripcion, fecha, costo_final,id_modulo,id_ingresante)
+		$consultaInsertar="INSERT INTO inscripcion(id_inscripcion, fecha, costo_final,id_modulo,dni)
 				VALUES ('".$this->getIdInscripcion()."','".$this->getFecha()."','".$this->getCostoFinal()."','".$this->getObjModulo()."','".$this->getObjIngresante()."')";
 		
 		if($base->Iniciar()){

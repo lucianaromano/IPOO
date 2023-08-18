@@ -7,6 +7,7 @@ class Ingresante {
     private $dni;
     private $nombre;
     private $apellido;
+	private $obj_inscripcion;
     private $mensajeoperacion;
 
     public function __construct(){
@@ -15,6 +16,7 @@ class Ingresante {
         $this-> dni = "";
         $this-> nombre = "";
         $this-> apellido ="";
+		$this-> obj_inscripcion= null;
     }
 
     public function setMail($mail){
@@ -55,6 +57,13 @@ class Ingresante {
     public function getApellido(){
         return $this->apellido;
     }
+	public function setObjInscripcion($id_inscripcion){
+        $this->obj_inscripcion = $id_inscripcion;
+    }
+    
+    public function getObjInscripcion(){
+        return $this->obj_inscripcion;
+    }
 
     public function getMensajeOperacion(){
 		return $this->mensajeoperacion;
@@ -65,12 +74,13 @@ class Ingresante {
 
     //FUNCIONES DE LA CLASE INGRESANTE
 
-	public function cargar($mail,$legajo,$dni,$nombre,$apellido){		
+	public function cargar($mail,$legajo,$dni,$nombre,$apellido,$id_inscripcion){		
 		$this->setMail($mail);
 		$this->setLegajo($legajo);
 		$this->setDni($dni);
 		$this->setNombre($nombre);
 		$this->setApellido($apellido);
+		$this->setObjInscripcion($id_inscripcion);
     }
 
     /**
@@ -91,16 +101,14 @@ class Ingresante {
 					$this->setLegajo($row2['legajo']);
 					$this->setNombre($row2['nombre']);
 					$this->setApellido($row2['apellido']);
+					$this->setObjInscripcion($row2['obj_inscripcion']);
 					$resp= true;
 				}				
-			
 		 	}	else {
 		 			$this->setMensajeOperacion($base->getError());
-		 		
 			}
 		 }	else {
 		 		$this->setMensajeOperacion($base->getError());
-		 	
 		 }		
 		 return $resp;
 	}	
@@ -112,23 +120,17 @@ class Ingresante {
 	public function insertar(){
 		$base=new BaseDatos();
 		$resp= false;
-		$consultaInsertar="INSERT INTO ingresante(mail,legajo,dni,nombre,apellido)
-				VALUES ('".$this->getMail()."','".$this->getLegajo()."','".$this->getDni()."','".$this->getNombre()."','".$this->getApellido()."')";
+		$consultaInsertar="INSERT INTO ingresante(mail,legajo,dni,nombre,apellido,dni)
+				VALUES ('".$this->getMail()."','".$this->getLegajo()."','".$this->getDni()."','".$this->getNombre()."','".$this->getApellido()."','".$this->getObjInscripcion()."')";
 		
 		if($base->Iniciar()){
-
 			if($base->Ejecutar($consultaInsertar)){
-
 			    $resp=  true;
-
 			}	else {
 					$this->setMensajeOperacion($base->getError());
-					
 			}
-
 		} else {
 				$this->setMensajeOperacion($base->getError());
-			
 		}
 		return $resp;
 	}
@@ -148,11 +150,9 @@ class Ingresante {
 			    $resp=  true;
 			}else{
 				$this->setMensajeOperacion($base->getError());
-				
 			}
 		}else{
 				$this->setMensajeOperacion($base->getError());
-			
 		}
 		return $resp;
 	}	
@@ -219,7 +219,8 @@ class Ingresante {
 					 	"Legajo: " . $this->getLegajo()."\n".
 					 	"Documento: " . $this->getDni()."\n".
 						"Nombre: ". $this->getNombre()."\n".
-						"Apellido: ". $this->getApellido()."\n";
+						"Apellido: ". $this->getApellido()."\n".
+						"Inscripciones: " .$this->getObjInscripcion();
 		return $cadena;
 	}
 	
