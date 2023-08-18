@@ -13,14 +13,14 @@ class enLinea extends Modulo{
 
     public function cargar($id_modulo,$descripcion,$tope,$costo,$hora_inicio,$hora_cierre,$fecha,$id_actividad,$link_reunion,$bonificacion){
         parent::cargar($id_modulo,$descripcion,$tope,$costo,$hora_inicio,$hora_cierre,$fecha,$id_actividad);
-        $this->setlink_reunion($link_reunion);
+        $this->setLinkReunion($link_reunion);
         $this->setBonificacion($bonificacion);
     }
 
-    public function getlink_reunion(){
+    public function getLinkReunion(){
         return $this->link_reunion;
     }
-    public function setlink_reunion($link_reunion){
+    public function setLinkReunion($link_reunion){
         $this->link_reunion = $link_reunion;
     }
 
@@ -143,7 +143,7 @@ class enLinea extends Modulo{
 
     public function __toString(){
         return parent::__toString() .
-        "\n Link reunion: " . $this->getLinkReunion() .
+        "\n Link reunion: " . $this->getLinkReunion().
         "\n Bonificación: " . $this->getBonificacion();
     }
 

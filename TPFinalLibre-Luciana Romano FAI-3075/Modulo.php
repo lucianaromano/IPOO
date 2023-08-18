@@ -262,7 +262,6 @@ class Modulo {
 
 	public function darCostoModulo(){
         $colModulos = [] ;
-       
         $costoTotal = 0;
         $costoEnLinea = 0;
         $costoPresencial =0;
