@@ -84,7 +84,7 @@ class enLinea extends Modulo{
 	    $base = new BaseDatos();
 
         if(parent::modificar()){
-            $consultaModifica="UPDATE enLinea SET link_reunion='".$this->getLinkReunion()."',bonificacion='".$this->getBonificacion()."'WHERE id_modulo =". $this->getid_modulo();    
+            $consultaModifica="UPDATE enLinea SET link_reunion='".$this->getLinkReunion()."',bonificacion='".$this->getBonificacion()."'WHERE id_modulo =". $this->getIdModulo();    
 	    	if($base->Iniciar()){
 		    	if($base->Ejecutar($consultaModifica)){
 			    $resp=  true;
