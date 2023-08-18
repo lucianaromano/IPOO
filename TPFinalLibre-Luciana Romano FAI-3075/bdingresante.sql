@@ -31,12 +31,14 @@ CREATE TABLE enLinea (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE ingresante (
-    correo varchar (200),
+    mail varchar (200),
     legajo int,
-	documento varchar (15),
+	dni varchar (15),
     nombre varchar(150), 
-    apellido  varchar(150), 
-    PRIMARY KEY (correo)
+    apellido  varchar(150),
+    id_inscripcion bigint(11), 
+    PRIMARY KEY (dni)
+    FOREIGN KEY (id_inscripcion) REFERENCES inscripcion (id_inscripcion)
     )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -44,5 +46,9 @@ CREATE TABLE inscripcion (
     id_inscripcion bigint AUTO_INCREMENT,
     fecha date,
     costo_final int,
+    id_modulo bigint (11), 
+    dni bigint (11),
     PRIMARY KEY (id_inscripcion)
+    FOREIGN KEY (id_modulo) REFERENCES modulo (id_modulo)
+    FOREIGN KEY (dni) REFERENCES ingresante (dni)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT =1;
