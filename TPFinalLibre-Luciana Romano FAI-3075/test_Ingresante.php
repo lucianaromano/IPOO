@@ -253,7 +253,7 @@ function main (){
             }
         }
         
-        
+
         elseif ($opcionElegida==8){
             echo "Ingrese ID de la inscripcion que desea borrar: \n";
             $idInscripcion = trim(fgets(STDIN));
@@ -329,15 +329,25 @@ function main (){
         }
         elseif ($opcionElegida==13){
            /**Buscar dado un módulo todos aquellos registros que poseen el mismo DNI y aparecen mas de una vez. */
+            //ingresar dato del modulo
+            $objModulo = new Modulo ();
+            $colModulos = $objModulo -> listar("");
+                foreach ($colModulos as $modulo){
+                    echo  "\n--------------------------------------\n" . $modulo;
+                }
             echo "Ingrese el ID del modulo: ";
-            $idModulo = trim(fgets(STDIN));
-            $objModuloBusqueda = new Modulo;
-            $respBusqueda = $objModuloBusqueda ->buscar($idModulo);
-            $objIngresante = new Ingresante();
-            
+            $id_modulo = trim(fgets(STDIN));
+            $objModulo->buscar($id_modulo);
+            $objInscripcion = new Inscripcion();
+            $colInscripciones = $objInscripcion->listar("");
+            //listar los que poseen el mismo dni 
+            /*if (){
+                foreach ($colInscripciones as $inscripcion){
+                    echo  "\n--------------------------------------\n" . $inscripcion;
+                }
+             }
+              */  
             //NO TUVE TIEMPO DE CONTINUARLA O CORREGIRLA....
-
-
                
         }elseif($opcionElegida==14){
            echo "Ingrese el ID del ingresante, para ver sus actividades: ";
